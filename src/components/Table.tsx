@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import type { ColumnDef, TableProps } from "../types";
 import { resolveLocale } from "../utils/locale";
 import { clamp, getTotalPages, paginateData } from "../utils/pagination";
-import { getTbodyBgClass, getTheadBgClass, getThemeClass, mergeClassNames } from "../utils/theme";
+import { getTbodyBgClass, getTheadBgClass, getThemeClass, mergeClassNames, getCustomThemeStyles } from "../utils/theme";
 
 function getCellValue<TData extends Record<string, unknown>>(
   row: TData,
@@ -20,6 +20,10 @@ function getCellValue<TData extends Record<string, unknown>>(
   return undefined;
 }
 
+function isHexOrRgb(value: string): boolean {
+  return /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(value) || /^rgb/.test(value);
+}
+
 export function Table<TData extends Record<string, unknown>>({
   data,
   columns,
@@ -31,6 +35,7 @@ export function Table<TData extends Record<string, unknown>>({
   theadBg = "default",
   tbodyBg = "default",
   theme = "auto",
+  customTheme,
   locale = "en",
   translations,
   responsive = true,
@@ -48,7 +53,9 @@ export function Table<TData extends Record<string, unknown>>({
   onRowCountChange,
   columnCount,
   defaultColumnCount,
-  onColumnCountChange
+  onColumnCountChange,
+  enableSerialNumber = false,
+  serialNumberHeader = "S.N"
 }: TableProps<TData>) {
   const [internalPage, setInternalPage] = useState(defaultPage);
   const [internalPageSize, setInternalPageSize] = useState(defaultPageSize);
@@ -63,10 +70,22 @@ export function Table<TData extends Record<string, unknown>>({
   const effectiveColumnCount = clamp(selectedColumnCount, 0, columns.length);
 
   const selectedData = useMemo(() => data.slice(0, effectiveRowCount), [data, effectiveRowCount]);
-  const selectedColumns = useMemo(
-    () => columns.slice(0, effectiveColumnCount),
-    [columns, effectiveColumnCount]
-  );
+  const selectedColumns = useMemo(() => {
+    let cols = columns.slice(0, effectiveColumnCount);
+    
+    if (enableSerialNumber) {
+      const snColumn: ColumnDef<TData> = {
+        id: "__serial_number__",
+        header: serialNumberHeader,
+        cell: (_, __, rowIndex) => (
+          <span className="font-semibold">{rowIndex + 1}</span>
+        )
+      };
+      cols = [snColumn, ...cols];
+    }
+    
+    return cols;
+  }, [columns, effectiveColumnCount, enableSerialNumber, serialNumberHeader]);
 
   const activePageSize = pageSize ?? internalPageSize;
   const totalPages = getTotalPages(selectedData.length, activePageSize);
@@ -161,7 +180,10 @@ export function Table<TData extends Record<string, unknown>>({
         )}
       >
         <table className={mergeClassNames("min-w-full divide-y divide-slate-200 dark:divide-slate-700", tableClassName)}>
-          <thead className={mergeClassNames(getTheadBgClass(theadBg), theadClassName)}>
+          <thead 
+            className={mergeClassNames(getTheadBgClass(theadBg), theadClassName)}
+            style={customTheme?.headerBg ? { backgroundColor: isHexOrRgb(customTheme.headerBg) ? customTheme.headerBg : undefined } : undefined}
+          >
             <tr>
               {selectedColumns.map((column, columnIndex) => (
                 <th
@@ -170,6 +192,7 @@ export function Table<TData extends Record<string, unknown>>({
                     "px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-700 dark:text-slate-100",
                     column.headerClassName
                   )}
+                  style={customTheme?.headerTextColor ? { color: isHexOrRgb(customTheme.headerTextColor) ? customTheme.headerTextColor : undefined } : undefined}
                   scope="col"
                 >
                   {column.header}
@@ -177,7 +200,10 @@ export function Table<TData extends Record<string, unknown>>({
               ))}
             </tr>
           </thead>
-          <tbody className={mergeClassNames(getTbodyBgClass(tbodyBg), tbodyClassName)}>
+          <tbody 
+            className={mergeClassNames(getTbodyBgClass(tbodyBg), tbodyClassName)}
+            style={customTheme?.bodyBg ? { backgroundColor: isHexOrRgb(customTheme.bodyBg) ? customTheme.bodyBg : undefined } : undefined}
+          >
             {pagedData.length === 0 ? (
               <tr>
                 <td
@@ -211,6 +237,7 @@ export function Table<TData extends Record<string, unknown>>({
                             "px-4 py-3 text-sm text-slate-700 dark:text-slate-200",
                             column.className
                           )}
+                          style={customTheme?.bodyTextColor ? { color: isHexOrRgb(customTheme.bodyTextColor) ? customTheme.bodyTextColor : undefined } : undefined}
                         >
                           {column.cell ? column.cell(value, row, rowIndex) : String(value ?? "")}
                         </td>

@@ -17,6 +17,15 @@ export interface TableLocale {
   columns: string;
 }
 
+export interface CustomTheme {
+  headerBg?: string; // e.g., "#0051BA", "bg-blue-600"
+  headerTextColor?: string; // e.g., "#FFFFFF", "text-white"
+  bodyBg?: string; // e.g., "#F5F5F5", "bg-gray-50"
+  bodyTextColor?: string; // e.g., "#000000", "text-black"
+  borderColor?: string; // e.g., "#CCCCCC", "border-gray-300"
+  fontFamily?: string; // e.g., "font-sans", "'Arial', sans-serif"
+}
+
 export interface ColumnDef<TData> {
   id?: string;
   header: string;
@@ -38,6 +47,7 @@ export interface TableProps<TData extends Record<string, unknown>> {
   theadBg?: BackgroundToken;
   tbodyBg?: BackgroundToken;
   theme?: TableTheme;
+  customTheme?: CustomTheme;
   locale?: LocaleCode;
   translations?: Partial<TableLocale>;
   responsive?: boolean;
@@ -56,4 +66,6 @@ export interface TableProps<TData extends Record<string, unknown>> {
   columnCount?: number;
   defaultColumnCount?: number;
   onColumnCountChange?: (columnCount: number) => void;
+  enableSerialNumber?: boolean;
+  serialNumberHeader?: string;
 }

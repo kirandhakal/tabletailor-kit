@@ -1,4 +1,4 @@
-import type { BackgroundToken, TableTheme } from "../types";
+import type { BackgroundToken, TableTheme, CustomTheme } from "../types";
 
 const theadBgClassMap: Record<BackgroundToken, string> = {
   default: "bg-slate-100 dark:bg-slate-800",
@@ -38,4 +38,42 @@ export function getTbodyBgClass(token: BackgroundToken): string {
 
 export function mergeClassNames(...classes: Array<string | undefined>): string {
   return classes.filter(Boolean).join(" ");
+}
+
+/**
+ * Convert custom theme values to inline styles
+ * Supports both hex colors, rgb, and Tailwind class names
+ */
+export function getCustomThemeStyles(customTheme?: CustomTheme): React.CSSProperties {
+  const styles: React.CSSProperties = {};
+
+  if (customTheme?.headerBg) {
+    styles.headerBgColor = isHexOrRgb(customTheme.headerBg) ? customTheme.headerBg : undefined;
+  }
+
+  if (customTheme?.headerTextColor) {
+    styles.headerTextColor = isHexOrRgb(customTheme.headerTextColor) ? customTheme.headerTextColor : undefined;
+  }
+
+  if (customTheme?.bodyBg) {
+    styles.bodyBgColor = isHexOrRgb(customTheme.bodyBg) ? customTheme.bodyBg : undefined;
+  }
+
+  if (customTheme?.bodyTextColor) {
+    styles.bodyTextColor = isHexOrRgb(customTheme.bodyTextColor) ? customTheme.bodyTextColor : undefined;
+  }
+
+  if (customTheme?.borderColor) {
+    styles.borderColor = isHexOrRgb(customTheme.borderColor) ? customTheme.borderColor : undefined;
+  }
+
+  if (customTheme?.fontFamily) {
+    styles.fontFamily = customTheme.fontFamily;
+  }
+
+  return styles;
+}
+
+function isHexOrRgb(value: string): boolean {
+  return /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(value) || /^rgb/.test(value);
 }

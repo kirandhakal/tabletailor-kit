@@ -1,2 +1,2 @@
 export { Table } from "./components/Table";
-export type { ColumnDef, TableLocale, TableProps, TableTheme, LocaleCode, BackgroundToken } from "./types";
+export type { ColumnDef, TableLocale, TableProps, TableTheme, LocaleCode, BackgroundToken, CustomTheme } from "./types";
