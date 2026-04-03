@@ -48,19 +48,19 @@ export function getCustomThemeStyles(customTheme?: CustomTheme): React.CSSProper
   const styles: React.CSSProperties = {};
 
   if (customTheme?.headerBg) {
-    styles.headerBgColor = isHexOrRgb(customTheme.headerBg) ? customTheme.headerBg : undefined;
+    styles.backgroundColor = isHexOrRgb(customTheme.headerBg) ? customTheme.headerBg : undefined;
   }
 
   if (customTheme?.headerTextColor) {
-    styles.headerTextColor = isHexOrRgb(customTheme.headerTextColor) ? customTheme.headerTextColor : undefined;
+    styles.color = isHexOrRgb(customTheme.headerTextColor) ? customTheme.headerTextColor : undefined;
   }
 
   if (customTheme?.bodyBg) {
-    styles.bodyBgColor = isHexOrRgb(customTheme.bodyBg) ? customTheme.bodyBg : undefined;
+    styles.backgroundColor = isHexOrRgb(customTheme.bodyBg) ? customTheme.bodyBg : undefined;
   }
 
   if (customTheme?.bodyTextColor) {
-    styles.bodyTextColor = isHexOrRgb(customTheme.bodyTextColor) ? customTheme.bodyTextColor : undefined;
+    styles.color = isHexOrRgb(customTheme.bodyTextColor) ? customTheme.bodyTextColor : undefined;
   }
 
   if (customTheme?.borderColor) {
