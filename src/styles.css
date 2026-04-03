@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .tabletailor-root {
+    @apply text-slate-900;
+  }
+
+  .tabletailor-dark {
+    @apply text-slate-100;
+  }
+
+  .tabletailor-light {
+    @apply text-slate-900;
+  }
+}
