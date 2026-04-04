@@ -4,122 +4,96 @@ Reusable React table component package built with TypeScript and Tailwind CSS.
 
 ## Features
 
-- Pagination support (controlled or uncontrolled)
+- Pagination support
 - Light and dark theme support
-- `thead` and `tbody` background customization
-- Built-in localization (`en`, `es`, `fr`) with override support
-- Optional controls for row and column count
-- Responsive layout with horizontal overflow handling
+- Customizable table headers and rows
+- Built-in localization with override support
+- Responsive layout
 
-## Install
+## Installation
 
-```bash
-npm install tabletailor-kit
-```
-
-Peer dependencies:
+Install the package and its peer dependencies:
 
 ```bash
-npm install react react-dom
+npm install tabletailor-kit react react-dom
 ```
 
-## Usage
+## Quick Start
 
-```tsx
-import { Table, type ColumnDef } from "tabletailor-kit";
-import "tabletailor-kit/styles.css";
-
-type Person = {
-  id: number;
-  name: string;
-  role: string;
-};
-
-const data: Person[] = [
-  { id: 1, name: "Ava", role: "Engineer" },
-  { id: 2, name: "Noah", role: "Designer" }
-];
-
-const columns: ColumnDef<Person>[] = [
-  { header: "Name", accessorKey: "name" },
-  { header: "Role", accessorKey: "role" }
-];
-
-export function DemoTable() {
-  return (
-    <Table
-      data={data}
-      columns={columns}
-      theme="auto"
-      locale="en"
-      theadBg="slate"
-      tbodyBg="default"
-      defaultPageSize={5}
-      pageSizeOptions={[5, 10, 20]}
-      enableDimensionControls
-    />
-  );
-}
-
-## Examples
-
-### Auto-Generate Serial Numbers (S.N)
-
-Use the `enableSerialNumber` prop to automatically add a serial number column:
+1. Import the `Table` component and styles:
 
 ```tsx
 import { Table } from "tabletailor-kit";
+import "tabletailor-kit/styles.css";
+```
 
+2. Define your data and columns:
+
+```tsx
 const data = [
   { id: 1, name: "Alice", role: "Engineer" },
   { id: 2, name: "Bob", role: "Designer" },
-  { id: 3, name: "Charlie", role: "Manager" },
 ];
 
 const columns = [
   { header: "Name", accessorKey: "name" },
   { header: "Role", accessorKey: "role" },
 ];
+```
 
+3. Render the table:
+
+```tsx
 function App() {
   return (
     <Table
       data={data}
       columns={columns}
-      enableSerialNumber={true}
-      serialNumberHeader="S.N"
+      theme="auto"
+      locale="en"
     />
   );
 }
 ```
 
+## Examples
+
+### Add Serial Numbers
+
+Enable serial numbers with the `enableSerialNumber` prop:
+
+```tsx
+<Table
+  data={data}
+  columns={columns}
+  enableSerialNumber={true}
+  serialNumberHeader="S.N"
+/>
+```
+
 **Output:**
 | S.N | Name | Role |
 |-----|------|------|
-| 1 | Alice | Engineer |
-| 2 | Bob | Designer |
-| 3 | Charlie | Manager |
+| 1   | Alice | Engineer |
+| 2   | Bob   | Designer |
 
-## API Highlights
+## API Overview
 
-- `data`, `columns`: source rows and column definitions
-- `page`, `onPageChange`: controlled page state
-- `pageSize`, `onPageSizeChange`: controlled page size
-- `theme`: `"light" | "dark" | "auto"`
-- `locale`: `"en" | "es" | "fr"`
-- `translations`: custom label overrides
-- `theadBg`, `tbodyBg`: section background token customization
-- `theadClassName`, `tbodyClassName`: section class overrides
-- `enableDimensionControls`: shows row/column count inputs
-- `rowCount`, `columnCount`: controlled dimension values
+- `data`: Array of row data
+- `columns`: Array of column definitions
+- `theme`: Table theme (`"light" | "dark" | "auto"`)
+- `locale`: Localization (`"en" | "es" | "fr"`)
+- `enableSerialNumber`: Adds a serial number column
 
-## Build
+## Build and Test
+
+Build the package:
 
 ```bash
 npm run build
 ```
 
-## Test
+Run tests:
 
 ```bash
 npm test
