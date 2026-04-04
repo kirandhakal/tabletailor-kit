@@ -60,7 +60,45 @@ export function DemoTable() {
     />
   );
 }
+
+## Examples
+
+### Auto-Generate Serial Numbers (S.N)
+
+Use the `enableSerialNumber` prop to automatically add a serial number column:
+
+```tsx
+import { Table } from "tabletailor-kit";
+
+const data = [
+  { id: 1, name: "Alice", role: "Engineer" },
+  { id: 2, name: "Bob", role: "Designer" },
+  { id: 3, name: "Charlie", role: "Manager" },
+];
+
+const columns = [
+  { header: "Name", accessorKey: "name" },
+  { header: "Role", accessorKey: "role" },
+];
+
+function App() {
+  return (
+    <Table
+      data={data}
+      columns={columns}
+      enableSerialNumber={true}
+      serialNumberHeader="S.N"
+    />
+  );
+}
 ```
+
+**Output:**
+| S.N | Name | Role |
+|-----|------|------|
+| 1 | Alice | Engineer |
+| 2 | Bob | Designer |
+| 3 | Charlie | Manager |
 
 ## API Highlights
 
