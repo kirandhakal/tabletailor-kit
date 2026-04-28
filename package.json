@@ -1,6 +1,6 @@
 {
   "name": "tabletailor-kit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Responsive React table component with pagination, theming, localization, and dynamic dimensions.",
   "license": "MIT",
   "type": "module",
