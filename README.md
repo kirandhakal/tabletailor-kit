@@ -17,7 +17,10 @@ Install the package and its peer dependencies:
 ```bash
 npm install tabletailor-kit react react-dom
 ```
-
+or 
+```bash
+npm install tabletailor-kit 
+```
 ## Quick Start
 
 1. Import the `Table` component and styles:
